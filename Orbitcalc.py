@@ -3,14 +3,14 @@ import math
 import datetime
 import unittest
 
-ENCODING='utf-8'
+ENCODING = 'utf-8'
 
-degreeconv=180/math.pi
+degreeconv = 180/math.pi
 #
 home = ephem.Observer()
-home.lat='43.134694'
-home.lon='141.248194'
-home.elev=50
+home.lat = '43.134694'
+home.lon = '141.248194'
+home.elev = 50
 #home.lat='43.066438'
 #home.lon='141.300925'
 
@@ -19,8 +19,9 @@ home.elev=50
 #1 25544U 98067A   12366.89848378  .00006715  00000-0  11734-3 0  9373
 #2 25544  51.6460 219.3718 0016515 109.6991  15.4155 15.51833175808723
 #calctime_utc=datetime.datetime(2013,11,23,0,0)
-calctime_utc=datetime.datetime.now()
-satresult=[]
+calctime_utc = datetime.datetime.now()
+satresult = []
+
 
 class Orbitcalc(object):
     _gslat = ''
@@ -31,17 +32,18 @@ class Orbitcalc(object):
     _tle2 = ''
     _frequency = ''
     _mode = ''
-    def __init__(self,gslat,gslon,gselev):
+
+    def __init__(self, gslat, gslon, gselev):
         self._gslat = str(gslat)
         self._gslon = str(gslon)
         self._gselev = str(gselev)
 
-    def SatInfo(self,satname,tle1,tle2,frequency,mode):
-        self._satname=str(satname)
-        self._tle1=str(tle1)
-        self._tle2=str(tle2)
-        self._frequency=str(frequency)
-        self._mode=str(mode)
+    def SatInfo(self, satname, tle1, tle2, frequency, mode):
+        self._satname = str(satname)
+        self._tle1 = str(tle1)
+        self._tle2 = str(tle2)
+        self._frequency = str(frequency)
+        self._mode = str(mode)
 
     def dopplershift(self, c, rangerate):
         #return math.sqrt(1-(V/c)**2)/(1-(V/c)*math.cos(theta))
@@ -58,7 +60,7 @@ class Orbitcalc(object):
         sataz = math.degrees(sat.az)
         satalt = math.degrees(sat.alt)
         c = 299792458
-        satfreq = float(self._frequency) * self.dopplershift(c,sat.range_velocity/1000)
+        satfreq = float(self._frequency) * self.dopplershift(c, sat.range_velocity/1000)
         return sataz, satalt, satfreq
 
 
@@ -95,28 +97,28 @@ class Orbitcalc(object):
 class testOrbitCalc(unittest.TestCase):
 
     def testOrbitcalc(self):
-        orbitinfo = Orbitcalc(gslat='43',gslon='141',gselev='50')
+        orbitinfo = Orbitcalc(gslat='43', gslon='141', gselev='50')
         orbitinfo.SatInfo('iss',
                       '1 99999U          13323.51230604  .00000000  00000-0  00000-0 0 00001',
                       '2 99999 051.5826 058.9447 0003029 020.0291 190.6000 15.51011028000098',
-                      '437.234','FM')
-        satlat,satlon,satfreq = orbitinfo.CalcObserve()
+                      '437.234', 'FM')
+        satlat, satlon, satfreq = orbitinfo.CalcObserve()
         print satlat
         print satlon
         print satfreq
 
     def testinputparamcheck(self):
-        orbitinfo = Orbitcalc(gslat=43,gslon=141,gselev=50)
+        orbitinfo = Orbitcalc(gslat=43, gslon=141, gselev=50)
         orbitinfo.SatInfo('iss',
                       '1 99999U          13323.51230604  .00000000  00000-0  00000-0 0 00001',
                       '2 99999 051.5826 058.9447 0003029 020.0291 190.6000 15.51011028000098',
-                      437.234,'FM')
-        satlat,satlon,satfreq = orbitinfo.CalcObserve()
+                      437.234, 'FM')
+        satlat, satlon, satfreq = orbitinfo.CalcObserve()
         print satlat
         print satlon
         print satfreq
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print calctime_utc
     unittest.main()
 
