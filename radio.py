@@ -90,6 +90,13 @@ class IC910:
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+postansumble
         print sendcommand
 
+    def _freqvalueparse(self,freqvalue):
+        freqvalue=str(freqvalue)
+        freqvalue=freqvalue.replace('.',"")
+        freqvalue=(freqvalue+"000000000")[:9]
+        return [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
+
+
     def chengefreq(self, freqvalue):
         sendcommand=[]
         sendcommand.append(bytes(0xFE))
@@ -102,11 +109,12 @@ class IC910:
         #437.485900 なら [0x00 0x59 0x48 0x37 0x04]
         #data = str(freqvalue)
         #[data.append(x) for x in freqvalue[-1:]
-        freqvalue=str(freqvalue)
-        freqvalue=freqvalue.replace('.',"")
-        freqvalue=(freqvalue+"000000000")[:9]
-        sendcommand.extend([freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)])
-        print [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
+        #freqvalue=str(freqvalue)
+        #freqvalue=freqvalue.replace('.',"")
+        #freqvalue=(freqvalue+"000000000")[:9]
+        sendcommand.extend(self._freqvalueparse(freqvalue))
+        #sendcommand.extend([freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)])
+        #print [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
         #data = str("0059483704")
         sendcommand.append(bytes(0xFD))
         #sendcommand =[priansumble[0],priansumble[1],receiveaddress,sendeaddress,command,data,postansumble]
@@ -175,15 +183,7 @@ class IC910:
 
 
 class Radio(object):
-    def __init__(self, radiomodel,modeSubMain,modeCWFM):
-        if radiomodel == "IC910":
-            self._radio = IC910()
-            self._radio.modeSubMain=modeSubMain
-            self._radio.modeCWFM=modeCWFM
-        if radiomodel == "IC911":
-            self._radio = IC911()
-            self._radio.modeSubMain=modeSubMain
-            self._radio.modeCWFM=modeCWFM
+    def _modesetparam(self,modeSubMain,modeCWFM):
         if(modeSubMain=="Sub" and modeCWFM=="FM"):
             self._radio._receiveaddress=bytes(0x60)
             self._radio._data=bytes(0xD1)
@@ -196,6 +196,17 @@ class Radio(object):
         if(modeSubMain=="Main" and modeCWFM=="CW"):
             self._radio._receiveaddress=bytes(0x2E)
             self._radio._data=bytes(0xD0)
+
+    def __init__(self, radiomodel,modeSubMain,modeCWFM):
+        if radiomodel == "IC910":
+            self._radio = IC910()
+            self._radio.modeSubMain=modeSubMain
+            self._radio.modeCWFM=modeCWFM
+        if radiomodel == "IC911":
+            self._radio = IC911()
+            self._radio.modeSubMain=modeSubMain
+            self._radio.modeCWFM=modeCWFM
+        self._modesetparam(modeSubMain,modeCWFM)
 
     def connect(self, radioport):
         self._radio.connect(radioport)
@@ -209,18 +220,7 @@ class Radio(object):
     def chengemode(self, modeSubMain,modeCWFM):
         self._radio.modeSubMain=modeSubMain
         self._radio.modeCWFM=modeCWFM
-        if(modeSubMain=="Sub" and modeCWFM=="FM"):
-            self._radio._receiveaddress=bytes(0x60)
-            self._radio._data=bytes(0xD1)
-        if(modeSubMain=="Main" and modeCWFM=="FM"):
-            self._radio._receiveaddress=bytes(0x60)
-            self._radio._data=bytes(0xD0)
-        if(modeSubMain=="Sub" and modeCWFM=="CW"):
-            self._radio._receiveaddress=bytes(0x2E)
-            self._radio._data=bytes(0xD1)
-        if(modeSubMain=="Main" and modeCWFM=="CW"):
-            self._radio._receiveaddress=bytes(0x2E)
-            self._radio._data=bytes(0xD0)
+        self._modesetparam(modeSubMain,modeCWFM)
         self._radio.chengemode()
 
     def getmode(self):
