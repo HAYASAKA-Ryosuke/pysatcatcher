@@ -135,24 +135,6 @@ class IC910:
         sendcommand.append(bytes(0x07))
         sendcommand.append(self._data)
         sendcommand.append(bytes(0xFD))
-        #priansumble="FE"*2
-        #sendeaddress=""
-        #command="E0"
-        #sendcommand.append(bytes(0x07))
-        #if(mode=="Sub" and freqmode=="FM"):
-        #    receiveaddress="60"
-        #    data="D1"
-        #if(mode=="Main" and freqmode=="FM"):
-        #    receiveaddress="60"
-        #    data="D0"
-        #if(mode=="Sub" and freqmode=="CW"):
-        #    receiveaddress="2E"
-        #    data="D1"
-        #if(mode=="Main" and freqmode=="CW"):
-        #    receiveaddress="2E"
-        #    data="D0"
-
-        #postansumble="FD"
         print "changeSubMain"
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print sendcommand
@@ -177,14 +159,14 @@ class IC910:
         self.changeband()
 
     def getmode(self):
-        priansumble = "FE"*2
-        receiveaddress = "60"
-        sendeaddress = "E0"
-        command = "04"
-        subcommand = "00"
-        data = ""
-        postansumble = "FD"
-        sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
+        sendcommand=[]
+        sendcommand.append(bytes(0xFE))
+        sendcommand.append(bytes(0xFE))
+        sendcommand.append(self._receiveaddress)
+        sendcommand.append(bytes(0xE0))
+        sendcommand.append(bytes(0x04))
+        sendcommand.append(bytes(0xFD))
+        #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print sendcommand
         #self._ser.sendvalue(sendcommand)
     def close(self):
