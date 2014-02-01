@@ -3,72 +3,6 @@ import unittest
 import serial
 
 
-class IC911:
-
-    def connect(self, radioport):
-        print "IC911"
-        #self._ser=serial.Serial(radioport,38400)
-
-    def chengefreq(self, freqvalue):
-        priansumble = "FE"*2
-        receiveaddress = "60"
-        sendeaddress = "E0"
-        command = "05"
-        subcommand = "00"
-        data = str(freqvalue)
-        postansumble = "FD"
-        sendcommand = priansumble + receiveaddress + sendeaddress + command + subcommand + data + postansumble
-        print sendcommand
-        #self._ser.sendvalue(sendcommand)
-
-    def getfreq(self):
-        priansumble = "FE"*2
-        receiveaddress = "60"
-        sendeaddress = "E0"
-        command = "03"
-        subcommand = "00"
-        data = ""
-        postansumble = "FD"
-        sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
-        print sendcommand
-        #self._ser.sendvalue(sendcommand)
-
-    def chengemode(self, mode):
-        priansumble = "FE"*2
-        sendeaddress = "E0"
-        command = "01"
-        subcommand = ""
-        if mode == "LSB":
-            subcommand = "00"
-        elif mode == "USB":
-            subcommand = "01"
-        elif mode == "CW":
-            receiveaddress = "60"
-            subcommand = "03"
-        elif mode == "FM":
-            subcommand = "04"
-            receiveaddress = "2E"
-
-        data = ""
-        postansumble = "FD"
-        sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
-        print "changemode"
-        print sendcommand
-        #self._ser.sendvalue(sendcommand)
-
-    def getmode(self):
-        priansumble = "FE"*2
-        receiveaddress = "60"
-        sendeaddress = "E0"
-        command = "04"
-        subcommand = "00"
-        data = ""
-        postansumble = "FD"
-        sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
-        print "getmode"
-        print sendcommand
-        #self._ser.sendvalue(sendcommand)
-
 
 class IC910:
     _receiveaddress=bytes(0x00)
@@ -181,6 +115,8 @@ class IC910:
         pass
         #self._ser.close()
 
+class IC911(IC910):
+    pass
 
 class Radio(object):
     def _modesetparam(self,modeSubMain,modeCWFM):
@@ -206,6 +142,8 @@ class Radio(object):
             self._radio = IC911()
             self._radio.modeSubMain=modeSubMain
             self._radio.modeCWFM=modeCWFM
+
+
         self._modesetparam(modeSubMain,modeCWFM)
 
     def connect(self, radioport):
@@ -244,12 +182,19 @@ class testradio(unittest.TestCase):
         print "Main CW"
         radio.chengemode("Main","CW")
 
-    #def testradioIC911(self):
-    #    radio = Radio("IC911")
-    #    radio.connect("connect")
-    #    print radio.getfreq()
-    #    radio.chengefreq(430.36)
-    #    radio.chengemode("FM")
-
+    def testradioIC911(self):
+        radio = Radio("IC910","Sub","CW")
+        radio.connect("connect")
+        #print radio.getfreq()
+        #radio.getmode()
+        radio.chengefreq(437.4801)
+        print "Sub FM"
+        radio.chengemode("Sub","FM")
+        print "Sub CW"
+        radio.chengemode("Sub","CW")
+        print "Main FM"
+        radio.chengemode("Main","FM")
+        print "Main CW"
+        radio.chengemode("Main","CW")
 
 unittest.main()
