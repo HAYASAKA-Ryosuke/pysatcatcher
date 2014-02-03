@@ -2,8 +2,6 @@
 import unittest
 import serial
 
-
-
 class IC910:
     _receiveaddress=bytes(0x00)
     _data=bytes(0x00)
@@ -11,6 +9,8 @@ class IC910:
     def connect(self, radioport):
         print radioport
         #self._ser=serial.Serial(radioport,38400)
+        self._ser=serial.serial_for_url(radioport,do_not_open=True)
+        self._ser.open()
 
     def changeSUB(self):
         sendcommand=[]
@@ -23,6 +23,7 @@ class IC910:
         sendcommand.append(bytes(0xFD))
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+postansumble
         print sendcommand
+        self._ser.write(sendcommand)
 
     def _freqvalueparse(self,freqvalue):
         freqvalue=str(freqvalue)
@@ -54,6 +55,8 @@ class IC910:
         #sendcommand =[priansumble[0],priansumble[1],receiveaddress,sendeaddress,command,data,postansumble]
         print "changefreq"
         print sendcommand
+        self._ser.write(sendcommand)
+        #self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
 
     def getfreq(self):
@@ -66,6 +69,7 @@ class IC910:
         sendcommand.append(bytes(0xFD))
         print "getfreq"
         print sendcommand
+        self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
 
     def changeband(self):
@@ -80,6 +84,7 @@ class IC910:
         print "changeSubMain"
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print sendcommand
+        self._ser.write(sendcommand)
 
     def chengemode(self):
         sendcommand=[]
@@ -97,6 +102,7 @@ class IC910:
         #freqmodecommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print "changeFMCW"
         print sendcommand
+        self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
         self.changeband()
 
@@ -110,8 +116,10 @@ class IC910:
         sendcommand.append(bytes(0xFD))
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print sendcommand
+        self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
     def close(self):
+        self._ser.close()
         pass
         #self._ser.close()
 
@@ -164,37 +172,42 @@ class Radio(object):
     def getmode(self):
         return self._radio.getmode()
 
+    def close(self):
+        return self._radio.close()
+
 
 class testradio(unittest.TestCase):
 
     def testradioIC910(self):
         radio = Radio("IC910","Sub","CW")
-        radio.connect("connect")
+        radio.connect("0")
         #print radio.getfreq()
         #radio.getmode()
         radio.chengefreq(437.4801)
-        print "Sub FM"
-        radio.chengemode("Sub","FM")
-        print "Sub CW"
-        radio.chengemode("Sub","CW")
-        print "Main FM"
-        radio.chengemode("Main","FM")
-        print "Main CW"
-        radio.chengemode("Main","CW")
+        #print "Sub FM"
+        #radio.chengemode("Sub","FM")
+        #print "Sub CW"
+        #radio.chengemode("Sub","CW")
+        #print "Main FM"
+        #radio.chengemode("Main","FM")
+        #print "Main CW"
+        #radio.chengemode("Main","CW")
+        radio.close()
 
-    def testradioIC911(self):
-        radio = Radio("IC910","Sub","CW")
-        radio.connect("connect")
-        #print radio.getfreq()
-        #radio.getmode()
-        radio.chengefreq(437.4801)
-        print "Sub FM"
-        radio.chengemode("Sub","FM")
-        print "Sub CW"
-        radio.chengemode("Sub","CW")
-        print "Main FM"
-        radio.chengemode("Main","FM")
-        print "Main CW"
-        radio.chengemode("Main","CW")
+    #def testradioIC911(self):
+    #    radio = Radio("IC910","Sub","CW")
+    #    radio.connect("connect")
+    #    #print radio.getfreq()
+    #    #radio.getmode()
+    #    radio.chengefreq(437.4801)
+    #    print "Sub FM"
+    #    radio.chengemode("Sub","FM")
+    #    print "Sub CW"
+    #    radio.chengemode("Sub","CW")
+    #    print "Main FM"
+    #    radio.chengemode("Main","FM")
+    #    print "Main CW"
+    #    radio.chengemode("Main","CW")
+    #    radio.close()
 
 unittest.main()
