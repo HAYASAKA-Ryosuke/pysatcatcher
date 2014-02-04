@@ -2,25 +2,9 @@
 
 import unittest
 import Orbitcalc
-import radio
+import Radio
 
 class testmain(unittest.TestCase):
-
-    def testradioIC910(self):
-        IC910 = radio.Radio("IC910","Sub","CW")
-        IC910.connect("0")
-        #print radio.getfreq()
-        #radio.getmode()
-        IC910.chengefreq(437.4801)
-        #print "Sub FM"
-        #radio.chengemode("Sub","FM")
-        #print "Sub CW"
-        #radio.chengemode("Sub","CW")
-        #print "Main FM"
-        #radio.chengemode("Main","FM")
-        #print "Main CW"
-        #radio.chengemode("Main","CW")
-        IC910.close()
 
     def testorbit(self):
         orbitinfo = Orbitcalc.Orbitcalc(gslat='43', gslon='141', gselev='50')
@@ -33,4 +17,19 @@ class testmain(unittest.TestCase):
         print satlon
         print satfreq
 
+    def testradioIC910(self):
+        radio = Radio.Radio("IC910","Sub","CW")
+        radio.connect("0")
+        #print radio.getfreq()
+        #radio.getmode()
+        radio.chengefreq(437.4801)
+        #print "Sub FM"
+        #radio.chengemode("Sub","FM")
+        #print "Sub CW"
+        #radio.chengemode("Sub","CW")
+        #print "Main FM"
+        #radio.chengemode("Main","FM")
+        #print "Main CW"
+        #radio.chengemode("Main","CW")
+        radio.close()
 unittest.main()
