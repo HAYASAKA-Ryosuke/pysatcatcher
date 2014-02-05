@@ -3,27 +3,25 @@ import unittest
 import serial
 
 class IC910:
-    _receiveaddress=bytes(0x00)
-    _data=bytes(0x00)
 
     def connect(self, radioport):
         print radioport
-        #self._ser=serial.Serial(radioport,38400)
-        self._ser=serial.serial_for_url(radioport,do_not_open=True)
-        self._ser.open()
+        self._ser=serial.Serial(port=radioport,baudrate=19200,xonxoff=True,rtscts=True)
+        #self._ser=serial.serial_for_url(radioport,do_not_open=True)
 
-    def changeSUB(self):
-        sendcommand=[]
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(bytes(0x60))
-        sendcommand.append(bytes(0xE0))
-        sendcommand.append(bytes(0x07))
-        sendcommand.append(bytes(0xD1))
-        sendcommand.append(bytes(0xFD))
-        #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+postansumble
-        print sendcommand
-        self._ser.write(sendcommand)
+    #def changeSUB(self):
+    #    sendcommand=[]
+    #    sendcommand.append(bytes(0xFE))
+    #    sendcommand.append(bytes(0xFE))
+    #    sendcommand.append(bytes(0x60))
+    #    sendcommand.append(bytes(0xE0))
+    #    sendcommand.append(bytes(0x07))
+    #    sendcommand.append(bytes(0xD1))
+    #    sendcommand.append(bytes(0xFD))
+    #    sendcommand.append("\r")
+    #    #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+postansumble
+    #    print sendcommand
+    #    self._ser.write(sendcommand)
 
     def _freqvalueparse(self,freqvalue):
         freqvalue=str(freqvalue)
@@ -52,6 +50,7 @@ class IC910:
         #print [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
         #data = str("0059483704")
         sendcommand.append(bytes(0xFD))
+        sendcommand.append("\r")
         #sendcommand =[priansumble[0],priansumble[1],receiveaddress,sendeaddress,command,data,postansumble]
         print "changefreq"
         print sendcommand
@@ -67,39 +66,63 @@ class IC910:
         sendcommand.append(bytes(0xE0))
         sendcommand.append(bytes(0x03))
         sendcommand.append(bytes(0xFD))
+        sendcommand.append("\r")
         print "getfreq"
         print sendcommand
-        self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
+        self._ser.write(sendcommand)
 
     def changeband(self):
-        sendcommand=[]
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(self._receiveaddress)
-        sendcommand.append(bytes(0xE0))
-        sendcommand.append(bytes(0x07))
-        sendcommand.append(self._data)
-        sendcommand.append(bytes(0xFD))
+        #sendcommand=[]
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(self._receiveaddress)
+        #sendcommand.append(bytes(0xE0))
+        #sendcommand.append(bytes(0x07))
+        #sendcommand.append(self._data)
+        #sendcommand.append(bytes(0xFD))
+        #sendcommand.append("\r")
+        sendcommand=""
+        sendcommand+="\xFE"
+        sendcommand+="\xFE"
+        sendcommand+=self._receiveaddress
+        sendcommand+="\xE0"
+        sendcommand+="\x07"
+        sendcommand+=self._data
+        sendcommand+="\xFD"
         print "changeSubMain"
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
         print sendcommand
         self._ser.write(sendcommand)
 
     def chengemode(self):
-        sendcommand=[]
-        if self.modeCWFM == "CW":
-            subcommand = bytes(0x03)
-        elif self.modeCWFM == "FM":
-            subcommand = bytes(0x05)
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(self._receiveaddress)
-        sendcommand.append(bytes(0xE0))
-        sendcommand.append(bytes(0x01))
-        sendcommand.append(subcommand)
-        sendcommand.append(bytes(0xFD))
+        #sendcommand=[]
+        #if self.modeCWFM == "CW":
+        #    subcommand = bytes(0x03)
+        #elif self.modeCWFM == "FM":
+        #    subcommand = bytes(0x05)
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(self._receiveaddress)
+        #sendcommand.append(bytes(0xE0))
+        #sendcommand.append(bytes(0x01))
+        #sendcommand.append(subcommand)
+        #sendcommand.append(bytes(0xFD))
+        #sendcommand.append("\r")
         #freqmodecommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
+        if self.modeCWFM == "CW":
+            subcommand = b"\x03"
+        elif self.modeCWFM == "FM":
+            subcommand = b"\x05"
+
+        sendcommand=""
+        sendcommand+="\xFE"
+        sendcommand+="\xFE"
+        sendcommand+=self._receiveaddress
+        sendcommand+="\xE0"
+        sendcommand+="\x01"
+        sendcommand+=subcommand
+        sendcommand+="\xFD"
         print "changeFMCW"
         print sendcommand
         self._ser.write(sendcommand)
@@ -107,20 +130,28 @@ class IC910:
         self.changeband()
 
     def getmode(self):
-        sendcommand=[]
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(bytes(0xFE))
-        sendcommand.append(self._receiveaddress)
-        sendcommand.append(bytes(0xE0))
-        sendcommand.append(bytes(0x04))
-        sendcommand.append(bytes(0xFD))
+        #sendcommand=[]
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(bytes(0xFE))
+        #sendcommand.append(self._receiveaddress)
+        #sendcommand.append(bytes(0xE0))
+        #sendcommand.append(bytes(0x04))
+        #sendcommand.append(bytes(0xFD))
+        #sendcommand.append("\r")
         #sendcommand = priansumble+receiveaddress+sendeaddress+command+subcommand+data+postansumble
+        sendcommand=""
+        sendcommand+=b"\xFE"
+        sendcommand+=b"\xFE"
+        sendcommand+=self._receiveaddress
+        sendcommand+=b"\xE0"
+        sendcommand+=b"\x04"
+        sendcommand+=b"\xFD"
+        print "getfreq"
         print sendcommand
         self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
     def close(self):
         self._ser.close()
-        pass
         #self._ser.close()
 
 class IC911(IC910):
@@ -129,14 +160,18 @@ class IC911(IC910):
 class Radio(object):
     def _modesetparam(self,modeSubMain,modeCWFM):
         if(modeSubMain=="Sub" and modeCWFM=="FM"):
-            self._radio._receiveaddress=bytes(0x60)
-            self._radio._data=bytes(0xD1)
+            #self._radio._receiveaddress=bytes(0x60)
+            #self._radio._data=bytes(0xD1)
+            self._radio._receiveaddress=b"\x60"
+            self._radio._data=b"\xD1"
         if(modeSubMain=="Main" and modeCWFM=="FM"):
             self._radio._receiveaddress=bytes(0x60)
             self._radio._data=bytes(0xD0)
         if(modeSubMain=="Sub" and modeCWFM=="CW"):
-            self._radio._receiveaddress=bytes(0x2E)
-            self._radio._data=bytes(0xD1)
+            #self._radio._receiveaddress=bytes(0x2E)
+            #self._radio._data=bytes(0xD1)
+            self._radio._receiveaddress=b"\x2E"
+            self._radio._data=b"\xD1"
         if(modeSubMain=="Main" and modeCWFM=="CW"):
             self._radio._receiveaddress=bytes(0x2E)
             self._radio._data=bytes(0xD0)
@@ -180,14 +215,14 @@ class testradio(unittest.TestCase):
 
     def testradioIC910(self):
         radio = Radio("IC910","Sub","CW")
-        radio.connect("0")
+        radio.connect("/dev/ttyUSB1")
         #print radio.getfreq()
         #radio.getmode()
-        radio.chengefreq(437.4801)
+        #radio.chengefreq(437.4801)
         #print "Sub FM"
         #radio.chengemode("Sub","FM")
-        #print "Sub CW"
-        #radio.chengemode("Sub","CW")
+        print "Sub CW"
+        radio.chengemode("Sub","CW")
         #print "Main FM"
         #radio.chengemode("Main","FM")
         #print "Main CW"
