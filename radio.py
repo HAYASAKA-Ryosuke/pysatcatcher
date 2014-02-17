@@ -6,8 +6,8 @@ class IC910:
 
     def connect(self, radioport):
         print radioport
-        self._ser=serial.Serial(port=radioport,baudrate=19200,xonxoff=True,rtscts=True)
-        #self._ser=serial.serial_for_url(radioport,do_not_open=True)
+        #self._ser=serial.Serial(port=radioport,baudrate=19200,xonxoff=True,rtscts=True)
+        self._ser=serial.serial_for_url(radioport,do_not_open=True)
 
     #def changeSUB(self):
     #    sendcommand=[]
@@ -27,7 +27,8 @@ class IC910:
         freqvalue=str(freqvalue)
         freqvalue=freqvalue.replace('.',"")
         freqvalue=(freqvalue+"000000000")[:9]
-        return [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
+        print freqvalue
+        return ["{0:02d}".format(int(freqvalue[x-1]+freqvalue[x])) for x in range(len(freqvalue)-1,-1,-2)]
 
 
     def chengefreq(self, freqvalue):
@@ -35,22 +36,20 @@ class IC910:
         sendcommand.append(bytes(0xFE))
         sendcommand.append(bytes(0xFE))
         #あとでFMな??2E
+        sendcommand.append(bytes(0x00))
         sendcommand.append(self._receiveaddress)
-        sendcommand.append(bytes(0x60))
-        sendcommand.append(bytes(0xE0))
-        sendcommand.append(bytes(0x05))
+        sendcommand.append(bytes(0x00))
         #437.485900 なら [0x00 0x59 0x48 0x37 0x04]
         #data = str(freqvalue)
         #[data.append(x) for x in freqvalue[-1:]
-        #freqvalue=str(freqvalue)
-        #freqvalue=freqvalue.replace('.',"")
+        freqvalue=str(freqvalue)
+        freqvalue=freqvalue.replace('.',"")
         #freqvalue=(freqvalue+"000000000")[:9]
         sendcommand.extend(self._freqvalueparse(freqvalue))
         #sendcommand.extend([freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)])
         #print [freqvalue[x]+freqvalue[x-1] for x in range(len(freqvalue)-1,-1,-2)]
         #data = str("0059483704")
         sendcommand.append(bytes(0xFD))
-        sendcommand.append("\r")
         #sendcommand =[priansumble[0],priansumble[1],receiveaddress,sendeaddress,command,data,postansumble]
         print "changefreq"
         print sendcommand
@@ -66,7 +65,6 @@ class IC910:
         sendcommand.append(bytes(0xE0))
         sendcommand.append(bytes(0x03))
         sendcommand.append(bytes(0xFD))
-        sendcommand.append("\r")
         print "getfreq"
         print sendcommand
         #self._ser.sendvalue(sendcommand)
@@ -114,20 +112,20 @@ class IC910:
             subcommand = b"\x03"
         elif self.modeCWFM == "FM":
             subcommand = b"\x05"
-
         sendcommand=""
         sendcommand+="\xFE"
         sendcommand+="\xFE"
+        sendcommand+="\x00"
         sendcommand+=self._receiveaddress
-        sendcommand+="\xE0"
         sendcommand+="\x01"
         sendcommand+=subcommand
+        sendcommand+="\x01"
         sendcommand+="\xFD"
         print "changeFMCW"
         print sendcommand
         self._ser.write(sendcommand)
         #self._ser.sendvalue(sendcommand)
-        self.changeband()
+        #self.changeband()
 
     def getmode(self):
         #sendcommand=[]
@@ -170,7 +168,8 @@ class Radio(object):
         if(modeSubMain=="Sub" and modeCWFM=="CW"):
             #self._radio._receiveaddress=bytes(0x2E)
             #self._radio._data=bytes(0xD1)
-            self._radio._receiveaddress=b"\x2E"
+            #self._radio._receiveaddress=b"\x2E"
+            self._radio._receiveaddress=b"\x60"
             self._radio._data=b"\xD1"
         if(modeSubMain=="Main" and modeCWFM=="CW"):
             self._radio._receiveaddress=bytes(0x2E)
@@ -218,7 +217,7 @@ class testradio(unittest.TestCase):
         radio.connect("/dev/ttyUSB1")
         #print radio.getfreq()
         #radio.getmode()
-        #radio.chengefreq(437.4801)
+        radio.chengefreq(437.4801)
         #print "Sub FM"
         #radio.chengemode("Sub","FM")
         print "Sub CW"
