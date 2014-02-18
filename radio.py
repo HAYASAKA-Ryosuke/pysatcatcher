@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import unittest
 import serial
 
 class IC910:
@@ -250,38 +249,38 @@ class Radio(object):
         return self._radio.close()
 
 
-class testradio(unittest.TestCase):
-
-    def testradioIC910(self):
-        radio = Radio("IC910","Sub","CW")
-        radio.connect("/dev/ttyUSB0")
-        #print radio.getfreq()
-        #radio.getmode()
-        radio.changefreq(437.48590)
-        #print "Sub FM"
-        #radio.chengemode("Sub","FM")
-        print "Sub CW"
-        radio.changemode("Sub","FM")
-        #print "Main FM"
-        #radio.chengemode("Main","FM")
-        #print "Main CW"
-        #radio.chengemode("Main","CW")
-        radio.close()
-
-    #def testradioIC911(self):
-    #    radio = Radio("IC910","Sub","CW")
-    #    radio.connect("connect")
-    #    #print radio.getfreq()
-    #    #radio.getmode()
-    #    radio.chengefreq(437.4801)
-    #    print "Sub FM"
-    #    radio.chengemode("Sub","FM")
-    #    print "Sub CW"
-    #    radio.chengemode("Sub","CW")
-    #    print "Main FM"
-    #    radio.chengemode("Main","FM")
-    #    print "Main CW"
-    #    radio.chengemode("Main","CW")
-    #    radio.close()
-
-unittest.main()
+#class testradio(unittest.TestCase):
+#
+#    def testradioIC910(self):
+#        radio = Radio("IC910","Sub","CW")
+#        radio.connect("/dev/ttyUSB0")
+#        #print radio.getfreq()
+#        #radio.getmode()
+#        radio.changefreq(437.38590)
+#        #print "Sub FM"
+#        #radio.chengemode("Sub","FM")
+#        print "Sub CW"
+#        radio.changemode("Sub","FM")
+#        #print "Main FM"
+#        #radio.chengemode("Main","FM")
+#        #print "Main CW"
+#        #radio.chengemode("Main","CW")
+#        radio.close()
+#
+#    #def testradioIC911(self):
+#    #    radio = Radio("IC910","Sub","CW")
+#    #    radio.connect("connect")
+#    #    #print radio.getfreq()
+#    #    #radio.getmode()
+#    #    radio.chengefreq(437.4801)
+#    #    print "Sub FM"
+#    #    radio.chengemode("Sub","FM")
+#    #    print "Sub CW"
+#    #    radio.chengemode("Sub","CW")
+#    #    print "Main FM"
+#    #    radio.chengemode("Main","FM")
+#    #    print "Main CW"
+#    #    radio.chengemode("Main","CW")
+#    #    radio.close()
+#
+#unittest.main()
