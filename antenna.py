@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 import serial
+import threading
+import time
 
 class RAC805:
     def __init__(self):
-        self._ser = serial.Serial('/dev/ttyUSB0',9600)
+        self._ser = serial.Serial('/dev/ttyUSB1',9600)
 
     def moveazel(self,az,el):
         command = "AZ"+str(az)+" EL"+str(el)+"\r"
@@ -16,11 +18,13 @@ class RAC805:
         self._ser.write(command+"\r")
         return True
 
-    def recieveenable(self):
-        result=self._ser.readline()
-        print result
-        readdata=">> "
-        return ">>" in readdata
+    def recieve(self):
+        result=""
+        while not(">>" in result):
+            time.sleep(0.05)
+            result=self._ser.read(self._ser.inWaiting())
+            print result
+        return True
 
     def close(self):
         self._ser.close()
@@ -34,8 +38,12 @@ class Antenna(object):
         return self._radio.moveazel(az,el)
     def stop(self):
         return self._radio.stop()
-    def recieveenable(self):
-        return self._radio.recieveenable()
+        
+    def recieve(self):
+        self._radio.recieve()
+        #t=threading.Thread(target=self._radio.recieve())
+        #t.setDaemon(True)
+        #t.start()
     def close(self):
         return self._radio.close()
 
@@ -57,10 +65,18 @@ class testAntenna(unittest.TestCase):
     #    self.assertTrue(ant.close())
     def testmoveanetnna(self):
         ant = Antenna("RAC805")
+        az=0.0
+        el=0.0
+        self.assertTrue(ant.moveazel(az,el))
+        self.assertEqual(None,ant.recieve())
         az=10.0
         el=0.0
         self.assertTrue(ant.moveazel(az,el))
-        self.assertTrue(ant.recieveenable())
+        self.assertEqual(None,ant.recieve())
+        az=30.0
+        el=0.0
+        self.assertTrue(ant.moveazel(az,el))
+        self.assertEqual(None,ant.recieve())
         self.assertTrue(ant.close())
         
 unittest.main()
