@@ -52,6 +52,8 @@ class IC910:
         sendcommand.append(bytes(0xFD))
         #sendcommand =[priansumble[0],priansumble[1],receiveaddress,sendeaddress,command,data,postansumble]
         print "changefreq"
+        #print map(str,sendcommand)
+        #print sendcommad
         print sendcommand
         self._ser.write(sendcommand)
         #self._ser.write(sendcommand)
@@ -219,7 +221,7 @@ class testradio(unittest.TestCase):
         #radio.getmode()
         radio.chengefreq(437.4801)
         #print "Sub FM"
-        #radio.chengemode("Sub","FM")
+        radio.chengemode("Sub","FM")
         print "Sub CW"
         radio.chengemode("Sub","CW")
         #print "Main FM"
