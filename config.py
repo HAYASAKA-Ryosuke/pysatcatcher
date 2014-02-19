@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import ConfigParser
-import unittest
 
 
 class ConfigRead(object):
@@ -49,28 +48,3 @@ class ConfigRead(object):
         if param is None:
             return {'lat': self.__lat, 'lon': self.__lon,'height':self.__height,'antenna': self.__antenna, 'radio': self.__radio, 'antenaport': self.__antenaport, 'antenabaudrate': self.__antenabaudrate, 'radioport': self.__radioport, 'radiobaudrate': self.__radiobaudrate}
 
-
-class testconfig(unittest.TestCase):
-    def testconfig(self):
-        config = ConfigRead()
-        self.assertEqual('43.134694', config.read('lat'))
-        self.assertEqual('141.248194', config.read('lon'))
-        self.assertEqual('50', config.read('height'))
-        self.assertEqual('RAC805', config.read('antenna'))
-        self.assertEqual('IC910', config.read('radio'))
-        self.assertEqual('/dev/tty.USB', config.read('antenaport'))
-        self.assertEqual('9600', config.read('antenabaudrate'))
-        self.assertEqual('/dev/tty.USB2', config.read('radioport'))
-        self.assertEqual('38400', config.read('radiobaudrate'))
-        data = config.read()
-        self.assertEqual('43.134694', data['lat'])
-        self.assertEqual('141.248194', data['lon'])
-        self.assertEqual('RAC805', data['antenna'])
-        self.assertEqual('50', data['height'])
-        self.assertEqual('IC910', data['radio'])
-        self.assertEqual('/dev/tty.USB', data['antenaport'])
-        self.assertEqual('9600', data['antenabaudrate'])
-        self.assertEqual('/dev/tty.USB2', data['radioport'])
-        self.assertEqual('38400', data['radiobaudrate'])
-
-unittest.main()
