@@ -1,11 +1,60 @@
 #:kivy 1.8.0
 
 <SampleWidget>:
-	#B1
-	Button:
-		pos: 0,0
-   		text: 'hello world1'
-	#B2
-	Button:
-		pos: 0,100
-   		text: 'hello world2'
+    #labelAZ: labelAZval
+    #labelEL: labelELval
+    #labelstatus: labelstatus
+    #labelAOS: labelAOSval
+    #labelLOS: labelLOSval
+    #ButtonOperation
+    buttonOperation: ButtonOperationval
+
+    Button:
+        id: ButtonOperationval
+        pos: 0,0
+        text: 'Operate'
+    Button:
+        pos: 0,100
+        text: 'Operate2'
+
+    ##AZ
+    #Label:
+    #    pos: 0,0
+    #    text: 'AZ:'
+    ##labelAZval
+    #Label:
+    #    id: labelAZval
+    #    pos: 20,0
+    #    text: '0.0'
+    ##EL
+    #Label:
+    #    pos: 0,20
+    #    text: 'EL'
+    ##labelELval
+    #Label:
+    #    id: labelELval
+    #    pos: 20,20
+    #    text: '0.0'
+    ##labelStatus
+    #Label:
+    #    id: labelstatus
+    #    pos: 0,40
+    #    text: 'Insight'
+    ##AOS
+    #Label:
+    #    pos: 0,60
+    #    text: 'AOS:'
+    ##labelAOSval
+    #Label:
+    #    id: labelAOSval
+    #    pos: 20,60
+    #    text: '00:00:00'
+    ##LOS
+    #Label:
+    #    pos: 0,80
+    #    text: 'LOS:'
+    ##labelLOSval
+    #Label:
+    #    id: labelLOSval
+    #    pos: 20,80
+    #    text: '00:00:00'
