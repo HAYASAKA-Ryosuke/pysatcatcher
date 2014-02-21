@@ -12,18 +12,22 @@ class SampleWidget(Widget):
     labelLOS = ObjectProperty(None)
     labelAZ = ObjectProperty(None)
     labelEL = ObjectProperty(None)
+    labelfreq = ObjectProperty(None)
     labelstatus = ObjectProperty(None)
     buttonOperation = ObjectProperty(None)
     def printvalue(self):
         print self.buttonOperation.text
         print self.labelAZ.text
 
+    def buttonOperation_clicked(self,src):
+        print "click!"
 class MyApp(App):
 
     def build(self):
         root = SampleWidget()
-        root.printvalue()
+        root.buttonOperation.bind(on_press=root.buttonOperation_clicked)
         return root
+
 
 if __name__ == '__main__':
     MyApp().run()
