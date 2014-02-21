@@ -21,6 +21,8 @@ class SampleWidget(Widget):
     labelfreq = ObjectProperty(None)
     labelstatus = ObjectProperty(None)
     buttonOperation = ObjectProperty(None)
+    textTLE = ObjectProperty(None)
+    textfreq = ObjectProperty(None)
 
     def buttonOperation_clicked(self,src):
         if self.buttonOperation.text=="operation":
@@ -32,12 +34,30 @@ class SampleWidget(Widget):
 class MyApp(App):
     def callback_operation(self,dt):
         if self.root.buttonOperation.text=="close":
-           self.root.labelAOS.text="hi"
+            tle1=self.root.textTLE.text.splitlines()[0]
+            tle2=self.root.textTLE.text.splitlines()[1]
+            freq = self.root.textfreq.text
+            orbitinfo = Orbitcalc.Orbitcalc(self.gslat,self.gslon,self.gsheight)
+            orbitinfo.SatInfo('sat',tle1,tle2,freq)
+            satlat,satlon,satfreq = orbitinfo.CalcObserve()
+            print satlat
+            print satlon
+            print satfreq
 
     def build(self):
         self.root = SampleWidget()
         self.root.buttonOperation.bind(on_press=self.root.buttonOperation_clicked)
         Clock.schedule_interval(self.callback_operation,1)
+        self.conf = config.ConfigRead().read()
+        self.gslat=self.conf['lat']
+        self.gslon=self.conf['lon']
+        self.gsantenna=self.conf['antenna']
+        self.gsheight=self.conf['height']
+        self.gsradio=self.conf['radio']
+        self.gsradioport=self.conf['radioport']
+        self.gsradiobaudrate=self.conf['radiobaudrate']
+        self.gsantennaport=self.conf['antennaport']
+        self.gsantennabaudrate=self.conf['antennabaudrate']
         return self.root
 
 
