@@ -1,60 +1,83 @@
 #:kivy 1.8.0
 
 <SampleWidget>:
-    #labelAZ: labelAZval
-    #labelEL: labelELval
-    #labelstatus: labelstatus
-    #labelAOS: labelAOSval
-    #labelLOS: labelLOSval
-    #ButtonOperation
+    labelAOS: labelAOSval
+    labelLOS: labelLOSval
+    labelAZ: labelAZval
+    labelEL: labelELval
+    labelstatus: labelstatus
     buttonOperation: ButtonOperationval
-
+    #labelAOSval
+    Label:
+        id: labelAOSval
+        font_size: 50
+        center_x: (root.width/4)
+        top: root.top
+        text: 'AOS:00:00:00'
+    #labelLOSval
+    Label:
+        id: labelLOSval
+        font_size: 50
+        center_x: (root.width*3/4)
+        top: root.top
+        text: 'LOS:00:00:00'
+    #labelStatus
+    Label:
+        id: labelstatus
+        font_size: 50
+        center_x: (root.width/2)
+        top: root.top-80
+        color: [0,1,0,1]
+        text: 'Insight'
+    #labelAZval
+    Label:
+        id: labelAZval
+        font_size: 50
+        center_x: (root.width/3)
+        top: root.top-160
+        text: 'AZ:0.0'
+    #labelELval
+    Label:
+        id: labelELval
+        font_size: 50
+        center_x: (root.width*2/3)
+        top: root.top-160
+        text: 'EL:0.0'
+    #labelfreqval
+    Label:
+        id: labelELval
+        font_size: 50
+        center_x: (root.width/2)
+        top: root.top-240
+        text: 'Freq[MHz]:000.000'
+    #labelTLE
+    Label:
+        font_size: 20
+        center_x: (root.width/4)
+        top: root.top-320
+        text: 'TLE'
+    #textTLEval
+    TextInput:
+        id: textTLE
+        center_x: (root.width/2)
+        size: 440,60
+        top: root.top-380
+    #labelfreq
+    Label:
+        font_size: 20
+        center_x: (root.width/4)+30
+        top: root.top-420
+        text: 'Freq[MHz]'
+    #textfreqval
+    TextInput:
+        id: textfreq
+        center_x: (root.width/4)+30
+        size: 80,30
+        top: root.top-480
+    #ButtonOperation
     Button:
         id: ButtonOperationval
-        pos: 0,0
+        center_x: root.width/2
+        size: 140,70
+        top: root.top-480
         text: 'Operate'
-    Button:
-        pos: 0,100
-        text: 'Operate2'
-
-    ##AZ
-    #Label:
-    #    pos: 0,0
-    #    text: 'AZ:'
-    ##labelAZval
-    #Label:
-    #    id: labelAZval
-    #    pos: 20,0
-    #    text: '0.0'
-    ##EL
-    #Label:
-    #    pos: 0,20
-    #    text: 'EL'
-    ##labelELval
-    #Label:
-    #    id: labelELval
-    #    pos: 20,20
-    #    text: '0.0'
-    ##labelStatus
-    #Label:
-    #    id: labelstatus
-    #    pos: 0,40
-    #    text: 'Insight'
-    ##AOS
-    #Label:
-    #    pos: 0,60
-    #    text: 'AOS:'
-    ##labelAOSval
-    #Label:
-    #    id: labelAOSval
-    #    pos: 20,60
-    #    text: '00:00:00'
-    ##LOS
-    #Label:
-    #    pos: 0,80
-    #    text: 'LOS:'
-    ##labelLOSval
-    #Label:
-    #    id: labelLOSval
-    #    pos: 20,80
-    #    text: '00:00:00'
