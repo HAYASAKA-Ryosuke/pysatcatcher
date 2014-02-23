@@ -4,6 +4,7 @@ import serial
 
 class RAC805:
     def __init__(self):
+        #self._ser = serial.serial('/dev/tty',9600)
         pass
 
     def moveazel(self,az,el):
