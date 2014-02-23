@@ -1,0 +1,86 @@
+#:kivy 1.8.0
+
+<SampleWidget>:
+    labelAOS: labelAOSval
+    labelLOS: labelLOSval
+    labelAZ: labelAZval
+    labelEL: labelELval
+    labelfreq: labelfreqval
+    labelstatus: labelstatus
+    buttonOperation: ButtonOperationval
+    textTLE: textTLEval
+    textfreq: textfreqval
+    #labelAOSval
+    Label:
+        id: labelAOSval
+        font_size: 50
+        center_x: (root.width/4)
+        top: root.top
+        text: 'AOS:00:00:00'
+    #labelLOSval
+    Label:
+        id: labelLOSval
+        font_size: 50
+        center_x: (root.width*3/4)
+        top: root.top
+        text: 'LOS:00:00:00'
+    #labelStatus
+    Label:
+        id: labelstatus
+        font_size: 50
+        center_x: (root.width/2)
+        top: root.top-80
+        color: [0,1,0,1]
+        text: 'Insight'
+    #labelAZval
+    Label:
+        id: labelAZval
+        font_size: 50
+        center_x: (root.width/3)
+        top: root.top-160
+        text: 'AZ:0.0'
+    #labelELval
+    Label:
+        id: labelELval
+        font_size: 50
+        center_x: (root.width*2/3)
+        top: root.top-160
+        text: 'EL:0.0'
+    #labelfreqval
+    Label:
+        id: labelfreqval
+        font_size: 50
+        center_x: (root.width/2)
+        top: root.top-240
+        text: 'Freq[MHz]:000.000'
+    #labelTLE
+    Label:
+        font_size: 20
+        center_x: (root.width/4)
+        top: root.top-320
+        text: 'TLE'
+    #textTLEval
+    TextInput:
+        id: textTLEval
+        center_x: (root.width/2)
+        size: 440,60
+        top: root.top-380
+    #labelfreq
+    Label:
+        font_size: 20
+        center_x: (root.width/4)+30
+        top: root.top-420
+        text: 'Freq[MHz]'
+    #textfreqval
+    TextInput:
+        id: textfreqval
+        center_x: (root.width/4)+30
+        size: 80,30
+        top: root.top-480
+    #ButtonOperation
+    Button:
+        id: ButtonOperationval
+        center_x: root.width/2
+        size: 140,70
+        top: root.top-480
+        text: 'operation'
