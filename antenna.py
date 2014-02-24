@@ -6,14 +6,11 @@ import threading
 import time
 
 class RAC805:
-<<<<<<< HEAD
     def __init__(self):
         #self._ser = serial.serial('/dev/tty',9600)
         pass
-=======
     def connect(self,port):
         self._ser = serial.Serial(port, 9600)
->>>>>>> 3fba7c8952b12233acf32f1becdf79f1b2bcfbdf
 
     def moveazel(self,az,el):
         command = "AZ"+str(az)+" EL"+str(el)+"\r"
