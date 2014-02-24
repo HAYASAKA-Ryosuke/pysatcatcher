@@ -53,13 +53,14 @@ class Orbitcalc(object):
         home = ephem.Observer()
         home.lat = self._gslat
         home.lon = self._gslon
+        #home.date='2014/02/25 1:58:25.00'
         home.elev = int(self._gselev)
         sat = ephem.readtle(self._satname, self._tle1, self._tle2)
         sat.compute(home)
         sataz = math.degrees(sat.az)
         satalt = math.degrees(sat.alt)
         c = 299792458
-        satfreq = float(self._frequency) * self.dopplershift(c, sat.range_velocity/1000)
+        satfreq = float(self._frequency) * self.dopplershift(c, sat.range_velocity)
         risetime=ephem.localtime(sat.rise_time)
         settime=ephem.localtime(sat.set_time)
         return sataz, satalt, satfreq,risetime,settime,math.degrees(sat.transit_alt)
