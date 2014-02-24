@@ -13,8 +13,9 @@ class RAC805:
         self._ser = serial.Serial(port, 9600)
 
     def moveazel(self,az,el):
-        command = "AZ"+str(az)+" EL"+str(el)+"\r"
-        self._ser.write(command)
+        if(el>=0.0):
+            command = "AZ"+str(az)+" EL"+str(el)+"\r"
+            self._ser.write(command)
         return True
 
     def stop(self):
@@ -27,7 +28,6 @@ class RAC805:
         while not(">>" in result):
             time.sleep(0.05)
             result=self._ser.read(self._ser.inWaiting())
-            print result
         return True
 
     def close(self):

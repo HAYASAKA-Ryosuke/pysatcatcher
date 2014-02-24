@@ -32,19 +32,17 @@ class Orbitcalc(object):
     _tle1 = ''
     _tle2 = ''
     _frequency = ''
-    _mode = ''
 
     def __init__(self, gslat, gslon, gselev):
         self._gslat = str(gslat)
         self._gslon = str(gslon)
         self._gselev = str(gselev)
 
-    def SatInfo(self, satname, tle1, tle2, frequency, mode):
+    def SatInfo(self, satname, tle1, tle2, frequency):
         self._satname = str(satname)
         self._tle1 = str(tle1)
         self._tle2 = str(tle2)
         self._frequency = str(frequency)
-        self._mode = str(mode)
 
     def dopplershift(self, c, rangerate):
         #return math.sqrt(1-(V/c)**2)/(1-(V/c)*math.cos(theta))
@@ -62,8 +60,9 @@ class Orbitcalc(object):
         satalt = math.degrees(sat.alt)
         c = 299792458
         satfreq = float(self._frequency) * self.dopplershift(c, sat.range_velocity/1000)
-        return sataz, satalt, satfreq
-
+        risetime=ephem.localtime(sat.rise_time)
+        settime=ephem.localtime(sat.set_time)
+        return sataz, satalt, satfreq,risetime,settime,math.degrees(sat.transit_alt)
 
 
 #def CalcPass(sat_num,tle1,tle2,epoch_utc):
