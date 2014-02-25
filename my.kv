@@ -6,7 +6,8 @@
     labelAZ: labelAZval
     labelEL: labelELval
     labelfreq: labelfreqval
-    labelstatus: labelstatus
+    labelstatus: status
+    spinfreqmode: spinfreqmodeval
     buttonOperation: ButtonOperationval
     textTLE: textTLEval
     textfreq: textfreqval
@@ -24,14 +25,14 @@
         center_x: (root.width*3/4)
         top: root.top
         text: 'LOS:00:00:00'
-    #labelStatus
+    #Status
     Label:
-        id: labelstatus
+        id: status
         font_size: 50
         center_x: (root.width/2)
         top: root.top-80
-        color: [0,1,0,1]
-        text: 'Insight'
+        color: [1,0,0,1]
+        text: 'Outsight'
     #labelAZval
     Label:
         id: labelAZval
@@ -77,6 +78,19 @@
         center_x: (root.width/4)+30
         size: 80,30
         top: root.top-480
+    #labelMode
+    Label:
+        font_size: 20
+        center_x: (root.width/4)+30
+        top: root.top-490
+        text: 'FreqMode'
+    #spindownMode
+    Spinner:
+        id: spinfreqmodeval
+        center_x: (root.width/4)+30
+        values: ["CW","FM"] 
+        size: 80,30
+        top: root.top-550
     #ButtonOperation
     Button:
         id: ButtonOperationval

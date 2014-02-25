@@ -23,16 +23,19 @@ class SampleWidget(Widget):
     buttonOperation = ObjectProperty(None)
     textTLE = ObjectProperty(None)
     textfreq = ObjectProperty(None)
+    spinfreqmode = ObjectProperty(None)
 
-    def buttonOperation_clicked(self,src):
-        if self.buttonOperation.text=="operation":
-            self.buttonOperation.text="close"
-            self.labelAOS.text="AOS:00:00:00"
-        else:
-            self.buttonOperation.text="operation"
-            self.labelAOS.text="AOS:00:00:00"
 
 class MyApp(App):
+
+    def buttonOperation_clicked(self,src):
+        if self.root.buttonOperation.text=="operation":
+            self.root.buttonOperation.text="close"
+            self.root.labelAOS.text="AOS:00:00:00"
+        else:
+            self.root.buttonOperation.text="operation"
+            self.root.labelAOS.text="AOS:00:00:00"
+
     def callback_operation(self,dt):
         if self.root.buttonOperation.text=="close":
             tle1=self.root.textTLE.text.splitlines()[0]
@@ -55,16 +58,23 @@ class MyApp(App):
                 self.root.labelstatus.color=[1,0,0,1]
                 self.root.labelAOS.text="AOS:"+str(satrisetime.strftime("%H:%M:%S"))
                 self.root.labelLOS.text="LOS:"+str(satsettime.strftime("%H:%M:%S"))
-            self.ic910.changemode("Sub","CW")
-            print satfreq
+
             self.ic910.changefreq("%0.5f" % satfreq)
             self.ant.moveazel(satlat,satlon)
             #self.ant.recieve()
+
+    def spinchanged(self,src,value):
+            if value=="FM":
+                self.ic910.changemode("Sub","FM")
+            else:
+                self.ic910.changemode("Sub","CW")
             
     def build(self):
         self.root = SampleWidget()
-        self.root.buttonOperation.bind(on_press=self.root.buttonOperation_clicked)
+        self.root.buttonOperation.bind(on_press=self.buttonOperation_clicked)
         Clock.schedule_interval(self.callback_operation,1)
+        self.root.spinfreqmode.bind(text=self.spinchanged)
+
         self.conf = config.ConfigRead().read()
         self.gslat=self.conf['lat']
         self.gslon=self.conf['lon']
