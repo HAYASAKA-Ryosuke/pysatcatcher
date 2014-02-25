@@ -31,10 +31,18 @@ class MyApp(App):
     def buttonOperation_clicked(self,src):
         if self.root.buttonOperation.text=="operation":
             self.root.buttonOperation.text="close"
-            self.root.labelAOS.text="AOS:00:00:00"
         else:
             self.root.buttonOperation.text="operation"
-            self.root.labelAOS.text="AOS:00:00:00"
+    def insight_outsight(self,satlon,risetime,settime):
+        if satlon>=0.0:
+            self.root.labelstatus.text="Insight"
+            self.root.labelstatus.color=[0,1,0,1]
+        else:
+            self.root.labelstatus.text="Outsight"
+            self.root.labelstatus.color=[1,0,0,1]
+            self.root.labelAOS.text="AOS:"+str(risetime.strftime("%H:%M:%S"))
+            self.root.labelLOS.text="LOS:"+str(settime.strftime("%H:%M:%S"))
+
 
     def callback_operation(self,dt):
         if self.root.buttonOperation.text=="close":
@@ -46,18 +54,12 @@ class MyApp(App):
             satlat,satlon,satfreq,satrisetime,satsettime,satmaxtime = orbitinfo.CalcObserve()
             print satlon
             print satfreq
+
             #self.labelAOS.text="AOS:"+str(satrisetime)
             self.root.labelAZ.text="AZ:"+"%0.3f" % satlat
             self.root.labelEL.text="EL:"+"%0.3f" % satlon
             self.root.labelfreq.text="Freq:"+"%0.5f" % satfreq
-            if satlon>=0.0:
-                self.root.labelstatus.text="Insight"
-                self.root.labelstatus.color=[0,1,0,1]
-            else:
-                self.root.labelstatus.text="Outsight"
-                self.root.labelstatus.color=[1,0,0,1]
-                self.root.labelAOS.text="AOS:"+str(satrisetime.strftime("%H:%M:%S"))
-                self.root.labelLOS.text="LOS:"+str(satsettime.strftime("%H:%M:%S"))
+            self.insight_outsight(satlon,satrisetime,satsettime)
 
             self.ic910.changefreq("%0.5f" % satfreq)
             self.ant.moveazel(satlat,satlon)
