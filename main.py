@@ -11,9 +11,8 @@ import Orbitcalc
 import antenna
 import config
 import radio
-import threading
 
-class SampleWidget(Widget):
+class Widget(Widget):
     labelAOS = ObjectProperty(None)
     labelLOS = ObjectProperty(None)
     labelAZ = ObjectProperty(None)
@@ -55,7 +54,6 @@ class MyApp(App):
             print satlon
             print satfreq
 
-            #self.labelAOS.text="AOS:"+str(satrisetime)
             self.root.labelAZ.text="AZ:"+"%0.3f" % satlat
             self.root.labelEL.text="EL:"+"%0.3f" % satlon
             self.root.labelfreq.text="Freq:"+"%0.5f" % satfreq
@@ -63,7 +61,6 @@ class MyApp(App):
 
             self.ic910.changefreq("%0.5f" % satfreq)
             self.ant.moveazel(satlat,satlon)
-            #self.ant.recieve()
 
     def spinchanged(self,src,value):
             if value=="FM":
@@ -72,7 +69,7 @@ class MyApp(App):
                 self.ic910.changemode("Sub","CW")
             
     def build(self):
-        self.root = SampleWidget()
+        self.root = Widget()
         self.root.buttonOperation.bind(on_press=self.buttonOperation_clicked)
         Clock.schedule_interval(self.callback_operation,1)
         self.root.spinfreqmode.bind(text=self.spinchanged)
@@ -90,7 +87,7 @@ class MyApp(App):
         self.ant=antenna.Antenna(self.gsantenna)
         self.ant.connect(self.gsantennaport)
         self.ic910=radio.Radio(self.gsradio,"Sub","CW")
-        self.ic910.connect(self.gsradioport)
+        self.ic910.connect(self.gsradioport,self.gsradiobaudrate)
         return self.root
 
 

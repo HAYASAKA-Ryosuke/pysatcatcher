@@ -2,7 +2,6 @@
 
 import ConfigParser
 
-
 class ConfigRead(object):
     __lat = ''
     __lon = ''

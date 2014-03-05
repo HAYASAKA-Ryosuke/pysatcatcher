@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import unittest
 import serial
-import threading
 import time
 
 class RAC805:
-    def __init__(self):
-        #self._ser = serial.serial('/dev/tty',9600)
-        pass
+
     def connect(self,port):
         self._ser = serial.Serial(port, 9600)
 
@@ -47,10 +43,7 @@ class Antenna(object):
         
     def recieve(self):
         self._radio.recieve()
-        #t=threading.Thread(target=self._radio.recieve())
-        #t.setDaemon(True)
-        #t.start()
-        #print "threadstart"
+
     def close(self):
         return self._radio.close()
 
