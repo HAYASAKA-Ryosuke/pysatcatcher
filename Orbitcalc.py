@@ -48,6 +48,6 @@ class Orbitcalc(object):
         satalt = math.degrees(sat.alt)
         c = 299792458
         satfreq = float(self._frequency) * self.dopplershift(c, sat.range_velocity)
-        risetime=ephem.localtime(sat.rise_time)
-        settime=ephem.localtime(sat.set_time)
-        return sataz, satalt, satfreq,risetime,settime,math.degrees(sat.transit_alt)
+        risetime = ephem.localtime(sat.rise_time)
+        settime = ephem.localtime(sat.set_time)
+        return sataz, satalt, satfreq, risetime, settime, math.degrees(sat.transit_alt)

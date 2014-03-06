@@ -3,6 +3,7 @@
 import unittest
 import Orbitcalc
 
+
 class testOrbitCalc(unittest.TestCase):
 
     def testinputparamcheck(self):
@@ -11,7 +12,7 @@ class testOrbitCalc(unittest.TestCase):
                       '1 39573U 14009B   14062.21627791  .00113488  00000-0  13212-2 0   165',
                       '2 39573  65.0133  48.0708 0005572 328.4023  31.6776 15.61091733   539',
                       437.150)
-        satlat, satlon, satfreq,aos,los,elmax= orbitinfo.CalcObserve()
+        satlat, satlon, satfreq, aos, los, elmax = orbitinfo.CalcObserve()
         print satlat
         print satlon
         print satfreq

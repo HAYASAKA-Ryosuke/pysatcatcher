@@ -3,6 +3,7 @@
 import unittest
 import config
 
+
 class testconfig(unittest.TestCase):
     def testconfig(self):
         conf = config.ConfigRead()
