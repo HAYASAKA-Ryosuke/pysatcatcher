@@ -4,11 +4,8 @@ import serial
 import time
 
 class RAC805:
-    def __init__(self):
-        #self._ser = serial.serial('/dev/tty',9600)
-        pass
-    def connect(self,port):
-        self._ser = serial.Serial(port, 9600)
+    def connect(self,port,baudrate):
+        self._ser = serial.Serial(port, baudrate)
 
     def moveazel(self,az,el):
         if(el>=0.0):
@@ -36,7 +33,7 @@ class Antenna(object):
     def __init__(self,rotatormodel):
         if rotatormodel == "RAC805":
             self._radio = RAC805()
-    def connect(self,port):
+    def connect(self, port, baudrate):
             self._radio.connect(port)
     def moveazel(self,az,el):
         return self._radio.moveazel(az,el)

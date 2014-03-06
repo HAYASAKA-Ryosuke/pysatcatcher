@@ -87,7 +87,7 @@ class MyApp(App):
         self.gsradiobaudrate=self.conf['radiobaudrate']
         self.gsantennaport=self.conf['antennaport']
         self.gsantennabaudrate=self.conf['antennabaudrate']
-        self.ant=antenna.Antenna(self.gsantenna)
+        self.ant=antenna.Antenna(self.gsantenna, self.gsantennabaudrate)
         self.ant.connect(self.gsantennaport)
         self.ic910=radio.Radio(self.gsradio,"Sub","CW")
         self.ic910.connect(self.gsradioport,self.gsradiobaudrate)
