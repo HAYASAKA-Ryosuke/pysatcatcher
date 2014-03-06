@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import unittest
 import serial
-import threading
 import time
 
 class RAC805:
@@ -47,10 +45,6 @@ class Antenna(object):
         
     def recieve(self):
         self._radio.recieve()
-        #t=threading.Thread(target=self._radio.recieve())
-        #t.setDaemon(True)
-        #t.start()
-        #print "threadstart"
     def close(self):
         return self._radio.close()
 

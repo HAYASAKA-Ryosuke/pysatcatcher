@@ -11,7 +11,6 @@ import Orbitcalc
 import antenna
 import config
 import radio
-import threading
 
 class SampleWidget(Widget):
     labelAOS = ObjectProperty(None)
@@ -33,6 +32,7 @@ class MyApp(App):
             self.root.buttonOperation.text="close"
         else:
             self.root.buttonOperation.text="operation"
+
     def insight_outsight(self,satlon,risetime,settime):
         if satlon>=0.0:
             self.root.labelstatus.text="Insight"
@@ -90,7 +90,7 @@ class MyApp(App):
         self.ant=antenna.Antenna(self.gsantenna)
         self.ant.connect(self.gsantennaport)
         self.ic910=radio.Radio(self.gsradio,"Sub","CW")
-        self.ic910.connect(self.gsradioport)
+        self.ic910.connect(self.gsradioport,self.gsradiobaudrate)
         return self.root
 
 
