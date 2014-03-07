@@ -22,9 +22,9 @@ class testconfig(unittest.TestCase):
         self.assertEqual('RAC805', data['antenna'])
         self.assertEqual('50', data['height'])
         self.assertEqual('IC910', data['radio'])
-        self.assertEqual('/dev/tty.USB', data['antennaport'])
+        self.assertEqual('/dev/tty.USB2', data['antennaport'])
         self.assertEqual('9600', data['antennabaudrate'])
-        self.assertEqual('/dev/tty.USB2', data['radioport'])
-        self.assertEqual('38400', data['radiobaudrate'])
+        self.assertEqual('/dev/tty.USB1', data['radioport'])
+        self.assertEqual('19200', data['radiobaudrate'])
 
 unittest.main()
