@@ -7,7 +7,7 @@ branches:
         - master
 
 install:
-    - travis_retry pip install cython pyephem pyserial kivy
+    - travis_retry pip install pyephem pyserial
 script:
   - nosetests --with-coverage --cover-package=beets
   - python Orbitcalctest.py
