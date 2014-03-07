@@ -12,5 +12,3 @@ script:
   - nosetests --with-coverage --cover-package=beets
   - python Orbitcalctest.py
   - python configtest.py
-  - python antennatst.py
-  - python radiotest.py
