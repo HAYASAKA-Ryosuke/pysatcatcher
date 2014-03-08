@@ -1,34 +1,34 @@
 #pysatcatcher
 [![Build Status](https://travis-ci.org/HAYASAKA-Ryosuke/pysatcatcher.png?branch=master)](https://travis-ci.org/HAYASAKA-Ryosuke/pysatcatcher)
-#$B$O$8$a$K(B
-$B$3$l$O%"%^%A%e%"1R@1DIHx$N$?$a$K:n$C$?(Bpython$B@=$NCO>e6I1?MQ%=%U%H$G$9!#(B
-$B5!G=$O50F;7W;;$7$?7k2L$K9g$o$;$F%"%^%A%e%"L5@~5!$H%"%s%F%J@)8f%3%s%H%m!<%i$X$N%3%^%s%IAw?.$H$J$j$^$9!#(B
-$B8=:_$N%3!<%I$G$O%"%^%A%e%"L5@~5!$O(BIC910$B!"%"%s%F%J@)8f%3%s%H%m!<%i$O(BRAC825$B$rA[Dj$7$F:n@.$7$F$*$j$^$9!#(B
+#はじめに
+これはアマチュア衛星追尾のために作ったpython製の地上局運用ソフトです。
+機能は軌道計算した結果に合わせてアマチュア無線機とアンテナ制御コントローラへのコマンド送信となります。
+現在のコードではアマチュア無線機はIC910、アンテナ制御コントローラはRAC825を想定して作成しております。
 
-#$BI,MW$J%i%$%V%i%j(B
+#必要なライブラリ
 
-$B50F;7W;;$K$O(BPyEphem$B$r;HMQ$7!"@)8f5!4o$K$O(BPySerial$B$r;HMQ$7$F$^$9!#(B
+軌道計算にはPyEphemを使用し、制御機器にはPySerialを使用してます。
 
 """
 pip install pyephem pyserial
 """
 
-GUI$BItJ,$O(Bkivy$B$r;HMQ$7$F$*$j$^$9!#(B
+GUI部分はkivyを使用しております。
 
 http://kivy.org/#home
 
-#$B5/F0$HA`:n(B
+#起動と操作
 
 """
 python main.py
 """
 
-$B$H%?%$%W$9$k$3$H$G%"%W%j%1!<%7%g%s$,5/F0$7$^$9!#(B
+とタイプすることでアプリケーションが起動します。
 
-$BDIHxBP>]$H$J$k(BTLE$B$H<~GH?t!"JQD4J}<0$rA*Br$7$F(Boperate$B%\%?%s$r%/%j%C%/$9$k$@$1$G$9!#(B
+追尾対象となるTLEと周波数、変調方式を選択してoperateボタンをクリックするだけです。
 
-#$B%i%$%;%s%9(B
+#ライセンス
 
-MIT$B%i%$%;%s%9$G$9!#(B
+MITライセンスです。
 
-LICENSE$B%U%!%$%k$K=>$C$F$/$@$5$$!#(B
+LICENSEファイルに従ってください。
