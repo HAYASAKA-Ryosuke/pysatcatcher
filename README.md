@@ -9,9 +9,9 @@
 
 軌道計算にはPyEphemを使用し、制御機器にはPySerialを使用してます。
 
-"""
+```
 pip install pyephem pyserial
-"""
+```
 
 GUI部分はkivyを使用しております。
 
@@ -19,9 +19,9 @@ http://kivy.org/#home
 
 #起動と操作
 
-"""
+```
 python main.py
-"""
+```
 
 とタイプすることでアプリケーションが起動します。
 
