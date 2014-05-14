@@ -2,13 +2,14 @@
 
 import ConfigParser
 
+
 class ConfigRead(object):
     __lat = ''
     __lon = ''
     __height = ''
     __radio = ''
-    __antennaport = ''
-    __antennabaudrate = ''
+    __antenaport = ''
+    __antenabaudrate = ''
     __radioport = ''
     __radiobaudrate = ''
 
@@ -19,9 +20,9 @@ class ConfigRead(object):
         self.__lon = config.get('GroundStation', 'Lon')
         self.__height = config.get('GroundStation', 'Height')
         self.__radio = config.get('GroundStation', 'Radio')
-        self.__antenna = config.get('GroundStation', 'Antenna')
-        self.__antennaport = config.get('GroundStation', 'AntenaPort')
-        self.__antennabaudrate = config.get('GroundStation', 'AntenaBaudRate')
+        self.__antenna= config.get('GroundStation', 'Antenna')
+        self.__antenaport = config.get('GroundStation', 'AntennaPort')
+        self.__antenabaudrate = config.get('GroundStation', 'AntennaBaudRate')
         self.__radioport = config.get('GroundStation', 'RadioPort')
         self.__radiobaudrate = config.get('GroundStation', 'RadioBaudRate')
 
@@ -37,12 +38,13 @@ class ConfigRead(object):
         if param == 'radio':
             return self.__radio
         if param == 'antennaport':
-            return self.__antennaport
+            return self.__antenaport
         if param == 'antennabaudrate':
-            return self.__antennabaudrate
+            return self.__antenabaudrate
         if param == 'radioport':
             return self.__radioport
         if param == 'radiobaudrate':
             return self.__radiobaudrate
         if param is None:
-            return {'lat': self.__lat, 'lon': self.__lon, 'height': self.__height, 'antenna': self.__antenna,  'radio': self.__radio, 'antennaport': self.__antennaport, 'antennabaudrate': self.__antennabaudrate, 'radioport': self.__radioport, 'radiobaudrate': self.__radiobaudrate}
+            return {'lat': self.__lat, 'lon': self.__lon,'height':self.__height,'antenna': self.__antenna, 'radio': self.__radio, 'antennaport': self.__antenaport, 'antennabaudrate': self.__antenabaudrate, 'radioport': self.__radioport, 'radiobaudrate': self.__radiobaudrate}
+
