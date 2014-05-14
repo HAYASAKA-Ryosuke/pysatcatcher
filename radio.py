@@ -2,7 +2,9 @@
 
 import serial
 
+
 class IC910:
+<<<<<<< HEAD
     def connect(self, radioport,radiobaudrate):
         self._ser=serial.Serial(port=radioport,baudrate=radiobaudrate)
 
@@ -44,31 +46,28 @@ class IC910:
             subcommand = b"\x03"
         elif self.modeCWFM == "FM":
             subcommand = b"\x05"
-        sendcommand=""
-        sendcommand+="\xFE"
-        sendcommand+="\xFE"
-        sendcommand+="\x00"
-        sendcommand+=self._receiveaddress
-        sendcommand+="\x01"
-        sendcommand+=subcommand
-        sendcommand+="\x01"
-        sendcommand+="\xFD"
-        print "changeFMCW"
-        print sendcommand
+        sendcommand = ""
+        sendcommand += "\xFE"
+        sendcommand += "\xFE"
+        sendcommand += "\x00"
+        sendcommand += self._receiveaddress
+        sendcommand += "\x01"
+        sendcommand += subcommand
+        sendcommand += "\x01"
+        sendcommand += "\xFD"
         self._ser.write(sendcommand)
         self._ser.flush()
 
     def getmode(self):
-        sendcommand=""
-        sendcommand+=b"\xFE"
-        sendcommand+=b"\xFE"
-        sendcommand+=self._receiveaddress
-        sendcommand+=b"\xE0"
-        sendcommand+=b"\x04"
-        sendcommand+=b"\xFD"
-        print "getfreq"
-        print sendcommand
+        sendcommand = ""
+        sendcommand += b"\xFE"
+        sendcommand += b"\xFE"
+        sendcommand += self._receiveaddress
+        sendcommand += b"\xE0"
+        sendcommand += b"\x04"
+        sendcommand += b"\xFD"
         self._ser.write(sendcommand)
+
     def close(self):
         self._ser.flush()
         self._ser.close()
@@ -76,43 +75,49 @@ class IC910:
 class IC911(IC910):
     pass
 
-class Radio(object):
-    def _modesetparam(self,modeSubMain,modeCWFM):
-        if(modeSubMain=="Sub" and modeCWFM=="FM"):
-            self._radio._receiveaddress=b"\x60"
-            self._radio._data=b"\x05"
-        if(modeSubMain=="Main" and modeCWFM=="FM"):
-            self._radio._receiveaddress=bytes(0x2E)
-            self._radio._data=bytes(0xD0)
-        if(modeSubMain=="Sub" and modeCWFM=="CW"):
-            self._radio._receiveaddress=b"\x60"
-            self._radio._data=b"\x03"
-        if(modeSubMain=="Main" and modeCWFM=="CW"):
-            self._radio._receiveaddress=bytes(0x60)
-            self._radio._data=bytes(0xD0)
 
-    def __init__(self, radiomodel,modeSubMain,modeCWFM):
+class Radio(object):
+    def _modesetparam(self, modeSubMain, modeCWFM):
+        if(modeSubMain == "Sub" and modeCWFM == "FM"):
+            self._radio._receiveaddress = b"\x60"
+            self._radio._data = b"\x05"
+
+        if(modeSubMain == "Main" and modeCWFM == "FM"):
+            self._radio._receiveaddress = b"\x2E"
+            self._radio._data = b"\xD0"
+
+        if(modeSubMain == "Sub" and modeCWFM == "CW"):
+            self._radio._receiveaddress = b"\x60"
+            self._radio._data = b"\x03"
+
+        if(modeSubMain == "Main" and modeCWFM == "CW"):
+            self._radio._receiveaddress = b"\x60"
+            self._radio._data = b"\xD0"
+
+    def __init__(self, radiomodel, modeSubMain, modeCWFM):
         if radiomodel == "IC910":
             self._radio = IC910()
-            self._radio.modeSubMain=modeSubMain
-            self._radio.modeCWFM=modeCWFM
+            self._radio.modeSubMain = modeSubMain
+            self._radio.modeCWFM = modeCWFM
         if radiomodel == "IC911":
             self._radio = IC911()
-            self._radio.modeSubMain=modeSubMain
-            self._radio.modeCWFM=modeCWFM
+            self._radio.modeSubMain = modeSubMain
+            self._radio.modeCWFM = modeCWFM
+        self._modesetparam(modeSubMain, modeCWFM)
 
-        self._modesetparam(modeSubMain,modeCWFM)
-
-    def connect(self, radioport,radiobaudrate):
-        self._radio.connect(radioport)
+    def connect(self, radioport, baudrate):
+        self._radio.connect(radioport, baudrate)
 
     def changefreq(self, freqvalue):
         self._radio.changefreq(freqvalue)
 
-    def changemode(self, modeSubMain,modeCWFM):
-        self._radio.modeSubMain=modeSubMain
-        self._radio.modeCWFM=modeCWFM
-        self._modesetparam(modeSubMain,modeCWFM)
+    def getfreq(self):
+        return self._radio.getfreq()
+
+    def changemode(self, modeSubMain, modeCWFM):
+        self._radio.modeSubMain = modeSubMain
+        self._radio.modeCWFM = modeCWFM
+        self._modesetparam(modeSubMain, modeCWFM)
         self._radio.changemode()
 
     def getmode(self):
@@ -120,4 +125,3 @@ class Radio(object):
 
     def close(self):
         return self._radio.close()
-

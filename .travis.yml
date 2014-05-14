@@ -1,0 +1,14 @@
+language: python
+python:
+    - "2.7"
+
+branches:
+    only:
+        - master
+
+install:
+    - travis_retry pip install pyephem pyserial
+script:
+  - nosetests --with-coverage --cover-package=beets
+  - python Orbitcalctest.py
+  - python configtest.py
